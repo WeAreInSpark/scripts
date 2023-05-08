@@ -81,7 +81,7 @@ function Get-CmdFilePath()
 function Create-ScheduledTask()
 {
 
-  $path = Join-Path $PSScriptRoot "uninstall-runtime.ps1"
+  $path = Join-Path $PSScriptRoot "Uninstall-Runtime.ps1"
 
   $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument "-NoProfile -File $path"
 
