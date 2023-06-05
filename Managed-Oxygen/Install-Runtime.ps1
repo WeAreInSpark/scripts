@@ -4,7 +4,7 @@ param(
   $key
 )
 
-function Download-Gateway([string] $path)
+function Get-Gateway([string] $path)
 {
     $URL = "https://go.microsoft.com/fwlink/?linkid=839822"
 
@@ -31,7 +31,7 @@ function Install-Gateway([string] $gwPath)
 {
 
     Write-Host "Start Microsoft Integration Runtime installation"
-    
+
     $process = Start-Process "msiexec.exe" "/i $gwPath /quiet /passive" -Wait -PassThru
     if ($process.ExitCode -ne 0)
     {
@@ -78,14 +78,14 @@ function Get-CmdFilePath()
     return (Split-Path -Parent $filePath) + "\dmgcmd.exe"
 }
 
-function Create-ScheduledTask()
+function New-ScheduledTask()
 {
 
   $path = Join-Path $PSScriptRoot "Uninstall-Runtime.ps1"
 
   $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument "-NoProfile -File $path"
 
-  $trigger = New-ScheduledTaskTrigger -Once -RepetitionInterval (New-TimeSpan -Minutes 1) -at (get-date) 
+  $trigger = New-ScheduledTaskTrigger -Once -RepetitionInterval (New-TimeSpan -Minutes 1) -at (get-date)
   Register-ScheduledTask -User System -Action $action -Trigger $trigger -TaskName "Watchdog" -Description "Watch for VM termination events to deregister nodes from ADF runtime"
 }
 
@@ -98,7 +98,7 @@ If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 
 $installerPath = Join-Path $PSScriptRoot "IntegrationRuntime.msi"
 
-Download-Gateway $installerPath
+Get-Gateway $installerPath
 Install-Gateway $installerPath
 Register-Gateway $key 80
-Create-ScheduledTask
+New-ScheduledTask

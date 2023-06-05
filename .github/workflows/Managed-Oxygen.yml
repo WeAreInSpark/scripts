@@ -1,0 +1,30 @@
+name: Managed-Oxygen
+
+on:
+  push:
+    branches: ['main']
+    paths: Managed-Oxygen/**
+
+permissions:
+  contents: write
+  pull-requests: read
+
+env:
+  solution: Managed-Oxygen
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate new Version
+        id: semver
+        uses: weareinspark/semver-from-labels@main
+        with:
+          prefix: $solution
+
+      - name: Release to GitHub
+        uses: opspresso/action-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NAME: ${{ steps.semver.outputs.newversion }}
+          DRAFT: true
