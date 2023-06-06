@@ -25,3 +25,4 @@ jobs:
           $scripts = ${{ steps.changed-files.outputs.all_changed_files }} | convertfrom-json
           $scripts | Invoke-ScriptAnalyzer -Recurse -ReportSummary -EnableExit
         if: ${{ steps.changed-files.outputs.all_changed_files }} != {}
+        shell: pwsh
