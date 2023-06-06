@@ -27,4 +27,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NAME: ${{ steps.semver.outputs.newversion }}
+          TAG_NAME: ${{ steps.semver.outputs.newversion }}
           DRAFT: true
