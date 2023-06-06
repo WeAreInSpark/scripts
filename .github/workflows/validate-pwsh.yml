@@ -1,0 +1,27 @@
+name: validate-module
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**/*.ps1"
+
+jobs:
+  pwsh:
+      name: Get changed modules
+      runs-on: ubuntu-latest
+      steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Get changed files in the docs folder
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          files: "**/*.ps1"
+          json: "true"
+      - run: |
+          install-module -name PSScriptAnalyzer
+          $scripts = ${{ steps.changed-files.outputs.all_changed_files }} | convertfrom-json
+          $scripts | Invoke-ScriptAnalyzer -Recurse -ReportSummary -EnableExit
+        if: ${{ steps.changed-files.outputs.all_changed_files }} != {}
