@@ -22,10 +22,12 @@ jobs:
         with:
           prefix: $solution
 
-      - name: Release to GitHub
-        uses: opspresso/action-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NAME: ${{ steps.semver.outputs.newversion }}
-          TAG_NAME: ${{ steps.semver.outputs.newversion }}
-          DRAFT: true
+      - uses: iamkubi/github-release@2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: $solution/
+          gzip: true
+          draft: true
+
+          name: ${{ steps.semver.outputs.newversion }}
+          tag: ${{ steps.semver.outputs.newversion }}
