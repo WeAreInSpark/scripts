@@ -102,3 +102,4 @@ Get-Gateway $installerPath
 Install-Gateway $installerPath
 Register-Gateway $key 80
 New-ScheduledTask
+
