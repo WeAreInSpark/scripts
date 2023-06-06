@@ -1,11 +1,12 @@
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", Scope = "Function", Target = "New-RuntimeScheduledTask")]
+
 param(
-  [Parameter(Mandatory)]
-  [string]
-  $key
+    [Parameter(Mandatory)]
+    [string]
+    $key
 )
 
-function Get-Gateway([string] $path)
-{
+function Get-Gateway([string] $path) {
     $URL = "https://go.microsoft.com/fwlink/?linkid=839822"
 
     $request = [System.Net.WebRequest]::Create($url)
@@ -15,7 +16,7 @@ function Get-Gateway([string] $path)
     If ($response.StatusCode -eq "Found") {
         $uri = $response.GetResponseHeader("Location")
     } else {
-      throw "Unable to find Integration Runtime installer URL."
+        throw "Unable to find Integration Runtime installer URL."
     }
 
     (New-Object System.Net.WebClient).DownloadFile($uri, $path)
@@ -24,74 +25,71 @@ function Get-Gateway([string] $path)
         throw "Cannot download Integration Runtime installer to $path."
     }
 
-    Write-Host "Integration Runtime installer has been downloaded to $path."
+    Write-Output "Integration Runtime installer has been downloaded to $path."
 }
 
-function Install-Gateway([string] $gwPath)
-{
+function Install-Gateway([string] $gwPath) {
 
-    Write-Host "Start Microsoft Integration Runtime installation"
+    Write-Output "Start Microsoft Integration Runtime installation"
 
     $process = Start-Process "msiexec.exe" "/i $gwPath /quiet /passive" -Wait -PassThru
-    if ($process.ExitCode -ne 0)
-    {
+    if ($process.ExitCode -ne 0) {
         throw "Failed to install Microsoft Integration Runtime. msiexec exit code: $($process.ExitCode)"
     }
 
-    Write-Host "Succeed to install Microsoft Integration Runtime"
+    Write-Output "Succeed to install Microsoft Integration Runtime"
 }
 
-function Register-Gateway([string] $key, [string] $port, [string] $cert)
-{
+function Register-Gateway([string] $key, [string] $port, [string] $cert) {
     $cmd = Get-CmdFilePath
 
-    if (![string]::IsNullOrEmpty($port))
-    {
-        Write-Host "Start to enable remote access."
+    if (![string]::IsNullOrEmpty($port)) {
+        Write-Output "Start to enable remote access."
         $process = Start-Process $cmd "-era $port $cert" -Wait -PassThru -NoNewWindow
-        if ($process.ExitCode -ne 0)
-        {
+        if ($process.ExitCode -ne 0) {
             throw "Failed to enable remote access. Exit code: $($process.ExitCode)"
         }
-        Write-Host "Succeed to enable remote access."
+        Write-Output "Succeed to enable remote access."
     }
 
-    Write-Host "Start to register Microsoft Integration Runtime with key $key."
+    Write-Output "Start to register Microsoft Integration Runtime with key $key."
     $process = Start-Process $cmd "-rn $key $node" -Wait -PassThru -NoNewWindow
 
-    if ($process.ExitCode -ne 0)
-    {
-            throw "Failed to register Microsoft Integration Runtime. Exit code: $($process.ExitCode)"
+    if ($process.ExitCode -ne 0) {
+        throw "Failed to register Microsoft Integration Runtime. Exit code: $($process.ExitCode)"
     }
 
-    Write-Host "Succeed to register Microsoft Integration Runtime."
+    Write-Output "Succeed to register Microsoft Integration Runtime."
 }
 
-function Get-CmdFilePath()
-{
+function Get-CmdFilePath() {
     $filePath = Get-ItemPropertyValue "hklm:\Software\Microsoft\DataTransfer\DataManagementGateway\ConfigurationManager" "DiacmdPath"
-    if ([string]::IsNullOrEmpty($filePath))
-    {
+    if ([string]::IsNullOrEmpty($filePath)) {
         throw "Get-InstalledFilePath: Cannot find installed File Path"
     }
 
     return (Split-Path -Parent $filePath) + "\dmgcmd.exe"
 }
 
-function New-ScheduledTask()
-{
+function New-RuntimeScheduledTask() {
+    param()
 
-  $path = Join-Path $PSScriptRoot "Uninstall-Runtime.ps1"
+    $path = Join-Path $PSScriptRoot "Uninstall-Runtime.ps1"
 
-  $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument "-NoProfile -File $path"
+    $params = @{
+        action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument "-NoProfile -File $path"
+        trigger = New-ScheduledTaskTrigger -Once -RepetitionInterval (New-TimeSpan -Minutes 1) -At (Get-Date)
+        user = "System"
+        taskname = "Watchdog"
+        description = "Watch for VM termination events to deregister nodes from ADF runtime"
 
-  $trigger = New-ScheduledTaskTrigger -Once -RepetitionInterval (New-TimeSpan -Minutes 1) -at (get-date)
-  Register-ScheduledTask -User System -Action $action -Trigger $trigger -TaskName "Watchdog" -Description "Watch for VM termination events to deregister nodes from ADF runtime"
+    }
+
+    Register-ScheduledTask @params
 }
 
 If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(`
-    [Security.Principal.WindowsBuiltInRole] "Administrator"))
-{
+            [Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Warning "You do not have Administrator rights to run this script!`nPlease re-run this script as an Administrator!"
     Break
 }
@@ -101,5 +99,5 @@ $installerPath = Join-Path $PSScriptRoot "IntegrationRuntime.msi"
 Get-Gateway $installerPath
 Install-Gateway $installerPath
 Register-Gateway $key 80
-New-ScheduledTask
+New-RuntimeScheduledTask
 

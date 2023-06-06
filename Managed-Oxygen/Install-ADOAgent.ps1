@@ -40,7 +40,7 @@ $path = Join-Path $PSScriptRoot "Uninstall-ADOAgent.ps1"
 $params = @{
     user = "System"
     taskname = "Watchdog"
-    action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument "-NoProfile -File $path $(ConvertTo-SecureString -String $pat -AsPlainText)"
+    action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument "-NoProfile -File $path $pat"
     trigger = New-ScheduledTaskTrigger -Once -RepetitionInterval (New-TimeSpan -Minutes 1) -at (get-date)
     description = "Watch for VM termination events to deregister nodes from Azure DevOps"
 }
