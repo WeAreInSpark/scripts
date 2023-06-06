@@ -13,6 +13,9 @@ Invoke-WebRequest -Uri "https://vstsagentpackage.azureedge.net/agent/$version/vs
 Expand-Archive -Path "c:\tmp\agent.zip" -DestinationPath "c:\agent"
 Remove-Item -Path "c:\tmp\agent.zip"
 
+# Install toolchain
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -UseBasicParsing | Invoke-Expression
+
 # Configure agent
 c:\agent\config --unattended --url $url --pool $pool --agent $env:computername --auth pat --token $pat --runAsService --windowsLogonAccount $agent\$username --windowsLogonPassword $password --replace
 
