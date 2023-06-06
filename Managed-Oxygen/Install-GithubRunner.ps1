@@ -31,7 +31,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner.zip", "$PWD")
 
 # Create the runner and start the configuration experience
-./config.cmd --url https://github.com/$repo --token $token --labels $labels
+./config.cmd --url https://github.com/$repo --token $token --labels $labels --unattended --replace
 
 # Run
 ./run.cmd
