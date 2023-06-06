@@ -34,7 +34,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 ./config.cmd --url https://github.com/$repo --token $token --labels $labels --unattended --replace
 
 # Install toolchain
-Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Install-Toolchain.ps1 -UseBasicParsing | Invoke-Expression
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -UseBasicParsing | Invoke-Expression
 
 # Run
 ./run.cmd
