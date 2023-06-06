@@ -19,7 +19,7 @@ jobs:
         uses: tj-actions/changed-files@v35
         with:
           files: "**/*.ps1"
-          json: "true"
+          json_raw_format: "true"
       - run: |
           install-module -name PSScriptAnalyzer
           $scripts = ${{ steps.changed-files.outputs.all_changed_files }} | convertfrom-json
