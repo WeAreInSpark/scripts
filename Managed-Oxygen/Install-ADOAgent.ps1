@@ -20,4 +20,5 @@ c:\agent\config --unattended --url $url --pool $pool --agent $env:computername -
 $path = Join-Path $PSScriptRoot "Uninstall-ADOAgent.ps1"
 $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument "-NoProfile -File $path $(ConvertTo-SecureString -String $pat -AsPlainText)"
 $trigger = New-ScheduledTaskTrigger -Once -RepetitionInterval (New-TimeSpan -Minutes 1) -at (get-date)
+
 Register-ScheduledTask -User System -Action $action -Trigger $trigger -TaskName "Watchdog" -Description "Watch for VM termination events to deregister nodes from Azure DevOps"
