@@ -16,11 +16,14 @@ jobs:
   tag:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
       - name: Generate new Version
         id: semver
         uses: weareinspark/semver-from-labels@main
         with:
-          prefix: $solution
+          prefix: ${{ env.solution }}
 
       - uses: iamkubi/github-release@2.0
         with:
