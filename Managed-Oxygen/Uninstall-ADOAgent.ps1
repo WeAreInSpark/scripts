@@ -2,7 +2,7 @@
 [CmdletBinding()]
 param (
     [Parameter(Mandatory=$true)]
-    [SecureString]
+    [string]
     $pat
 )
 
@@ -13,7 +13,7 @@ foreach($event in $events){
 
     if($event.EventType -eq "Terminate" -and $instance_name -in $event.Resources){
         # VM is scheduled to shutdown. Uninstall runtime to deregister this node
-        c:\agent\config remove --unattended --auth pat --token (ConvertFrom-SecureString -AsPlainText $pat)
+        c:\agent\config remove --unattended --auth pat --token $pat
 
         # Acknowledge event to expedite shutdown
         $id = $event.EventId

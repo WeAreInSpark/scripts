@@ -43,6 +43,7 @@ $params = @{
     action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument "-NoProfile -File $path $pat"
     trigger = New-ScheduledTaskTrigger -Once -RepetitionInterval (New-TimeSpan -Minutes 1) -at (get-date)
     description = "Watch for VM termination events to deregister nodes from Azure DevOps"
+    hidden = $true
 }
 
 Register-ScheduledTask @params
