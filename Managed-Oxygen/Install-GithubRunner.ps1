@@ -21,7 +21,7 @@ if ( $version[0] -ne "v" )
 $versionUnprefixed = $version.Replace("v", "")
 
 # Create a folder under the drive root
-New-Item -Type Directory actions-runner; Set-Location actions-runner
+New-Item -Type Directory c:\actions-runner; Set-Location c:\actions-runner
 
 # Download the latest runner package
 Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/$version/actions-runner-win-x64-$versionUnprefixed.zip -OutFile actions-runner.zip
@@ -29,6 +29,7 @@ Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/$vers
 # Extract the installer
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner.zip", "$PWD")
+Remove-Item actions-runner.zip
 
 # Install toolchain
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -UseBasicParsing | Invoke-Expression
