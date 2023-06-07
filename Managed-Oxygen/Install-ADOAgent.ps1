@@ -25,3 +25,6 @@ $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument "-NoProfil
 $trigger = New-ScheduledTaskTrigger -Once -RepetitionInterval (New-TimeSpan -Minutes 1) -at (get-date)
 
 Register-ScheduledTask -User System -Action $action -Trigger $trigger -TaskName "Watchdog" -Description "Watch for VM termination events to deregister nodes from Azure DevOps"
+
+# Reboot
+Restart-Computer
