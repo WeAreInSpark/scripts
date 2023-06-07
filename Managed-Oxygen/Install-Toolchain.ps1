@@ -4,7 +4,8 @@ Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet';
 Remove-Item .\AzureCLI.msi
 
 # Azure Powershell
-Install-Module -Name Az -Repository PSGallery -Force
+Install-Module -Name Az.Tools.Installer -Repository PSGallery -Force
+Install-AzModule
 
 # dotnet
 Invoke-WebRequest -URI https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
