@@ -5,11 +5,19 @@ foreach($event in $events){
 
     if($event.EventType -eq "Terminate" -and $instance_name -in $event.Resources){
         # VM is scheduled to shutdown. Uninstall runtime to deregister this node
-        [void](Get-WmiObject -Class Win32_Product -Filter "Name='Microsoft Integration Runtime Preview' or Name='Microsoft Integration Runtime'" -ComputerName $env:COMPUTERNAME).Uninstall()
+        Get-CimInstance -ClassName Win32_Product -Filter "Name='Microsoft Integration Runtime Preview' or Name='Microsoft Integration Runtime'" | Invoke-Method -Name Uninstall
 
         # Acknowledge event to expedite shutdown
         $id = $event.EventId
-        Invoke-RestMethod -Headers @{"Metadata" = "true"} -Method POST -body "{""StartRequests"": [{""EventId"": ""$id""}]}" -Uri http://169.254.169.254/metadata/scheduledevents?api-version=2020-07-01
+
+        $params = @{
+            Headers = @{"Metadata" = "true"}
+            Method = "POST"
+            body = "{""StartRequests"": [{""EventId"": ""$id""}]}"
+            Uri = "http://169.254.169.254/metadata/scheduledevents?api-version=2020-07-01"
+        }
+        Invoke-RestMethod @params
     }
 
 }
+
