@@ -34,6 +34,11 @@ Remove-Item actions-runner.zip
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -OutFile Install-Toolchain.ps1
 ./Install-Toolchain.ps1
 
+# Configure host
+
+# Enable long pathnames
+Set-ItemProperty 'HKLM:\System\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -value 1
+
 # Create the runner and start the configuration
 ./config.cmd --url https://github.com/$repo --token $token --labels $labels --unattended --replace --runasservice
 
