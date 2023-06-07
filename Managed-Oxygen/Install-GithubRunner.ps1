@@ -13,7 +13,7 @@ param(
   $labels
 )
 
-# Fail save for version input
+# Failsafe for version input
 if ( $version[0] -ne "v" )
 {
     $version = "v$version"
@@ -21,18 +21,21 @@ if ( $version[0] -ne "v" )
 $versionUnprefixed = $version.Replace("v", "")
 
 # Create a folder under the drive root
-mkdir actions-runner; Set-Location actions-runner
+New-Item -Type Directory c:\actions-runner; Set-Location c:\actions-runner
 
-# Download the latest runner package
+# Download the runner package of specified $version
 Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/$version/actions-runner-win-x64-$versionUnprefixed.zip -OutFile actions-runner.zip
 
-# Extract the installer
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-[System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner.zip", "$PWD")
+# Extract the package
+Expand-Archive -Path actions-runner.zip -DestinationPath .
+Remove-Item actions-runner.zip
 
-# Create the runner and start the configuration experience
-./config.cmd --url https://github.com/$repo --token $token --labels $labels --unattended --replace
+# Install toolchain
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -OutFile Install-Toolchain.ps1
+./Install-Toolchain.ps1
 
-# Run
-./run.cmd
+# Create the runner and start the configuration
+./config.cmd --url https://github.com/$repo --token $token --labels $labels --unattended --replace --runasservice
 
+# Reboot
+Restart-Computer

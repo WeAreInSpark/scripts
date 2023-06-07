@@ -25,11 +25,19 @@ param (
     $password
 )
 
-# Get agent
-New-Item -Type Directory -Force "c:\tmp"
-Invoke-WebRequest -Uri "https://vstsagentpackage.azureedge.net/agent/$version/vsts-agent-win-x64-$version.zip" -OutFile "c:\tmp\agent.zip" -UseBasicParsing
-Expand-Archive -Path "c:\tmp\agent.zip" -DestinationPath "c:\agent"
-Remove-Item -Path "c:\tmp\agent.zip"
+# Create a folder under the drive root
+New-Item -Type Directory c:\agent; Set-Location c:\agent
+
+# Download the agent package of specified $version
+Invoke-WebRequest -Uri https://vstsagentpackage.azureedge.net/agent/$version/vsts-agent-win-x64-$version.zip -OutFile c:\tmp\agent.zip
+
+# Extract the agent
+Expand-Archive -Path agent.zip -DestinationPath .
+Remove-Item -Path agent.zip
+
+# Install toolchain
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -OutFile Install-Toolchain.ps1
+./Install-Toolchain.ps1
 
 # Configure agent
 c:\agent\config --unattended --url $url --pool $pool --agent $env:computername --auth pat --token $pat --runAsService --windowsLogonAccount $agent\$username --windowsLogonPassword $password --replace
@@ -48,3 +56,5 @@ $params = @{
 
 Register-ScheduledTask @params
 
+# Reboot
+Restart-Computer
