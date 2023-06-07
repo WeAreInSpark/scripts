@@ -36,7 +36,7 @@ Expand-Archive -Path agent.zip -DestinationPath .
 Remove-Item -Path agent.zip
 
 # Install toolchain
-Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -OutFile Install-Toolchain.ps1 
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -OutFile Install-Toolchain.ps1
 ./Install-Toolchain.ps1
 
 # Configure agent

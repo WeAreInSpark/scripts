@@ -31,7 +31,7 @@ Expand-Archive -Path actions-runner.zip -DestinationPath .
 Remove-Item actions-runner.zip
 
 # Install toolchain
-Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -OutFile Install-Toolchain.ps1 
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -OutFile Install-Toolchain.ps1
 ./Install-Toolchain.ps1
 
 # Create the runner and start the configuration
