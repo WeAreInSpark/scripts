@@ -7,7 +7,8 @@ Remove-Item .\AzureCLI.msi
 Install-Module -Name Az -Repository PSGallery -Force
 
 # dotnet
-Invoke-WebRequest -URI https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.ps1 -UseBasicParsing | Invoke-Expression
+Invoke-WebRequest -URI https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
+./dotnet-install.ps1
 
 # DACPAC
 dotnet tool install -g microsoft.sqlpackage
