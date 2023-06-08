@@ -18,8 +18,8 @@ Invoke-WebRequest -Uri https://github.com/git-for-windows/git/releases/download/
 Start-Process git.exe -Wait -ArgumentList '/VERYSILENT /NORESTART /NOCANCEL /SP- /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /o:PathOption=CmdTools /o:BashTerminalOption=ConHost /o:EnableSymlinks=Enabled /COMPONENTS=gitlfs'
 Remove-Item git.exe
 
-$Path = [Environment]::GetEnvironmentVariable("PATH", "Machine") + [IO.Path]::PathSeparator +  "C:\Program Files\Git\bin"
-[Environment]::SetEnvironmentVariable( "Path", $Path, "Machine")
+$Path = [Environment]::GetEnvironmentVariable("PATH", "Machine") + [IO.Path]::PathSeparator + "C:\Program Files\Git\bin"
+[Environment]::SetEnvironmentVariable("PATH", $Path, "Machine")
 
 ssh-keyscan -t rsa,ecdsa,ed25519 github.com >> "C:\Program Files\Git\etc\ssh\ssh_known_hosts"
 ssh-keyscan -t rsa ssh.dev.azure.com >> "C:\Program Files\Git\etc\ssh\ssh_known_hosts"
