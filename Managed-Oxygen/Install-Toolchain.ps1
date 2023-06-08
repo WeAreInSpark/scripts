@@ -22,4 +22,4 @@ Invoke-WebRequest -Uri https://github.com/Azure/bicep/releases/latest/download/b
 
 # Add bicep to path
 $Path = [Environment]::GetEnvironmentVariable("PATH", "Machine") + [IO.Path]::PathSeparator + $InstallPath
-[Environment]::SetEnvironmentVariable( "Path", $Path, "Machine")
+[Environment]::SetEnvironmentVariable("PATH", $Path, "Machine")
