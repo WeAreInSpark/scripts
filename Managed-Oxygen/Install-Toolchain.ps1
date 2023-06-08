@@ -12,3 +12,14 @@ Invoke-WebRequest -URI https://dotnet.microsoft.com/download/dotnet/scripts/v1/d
 
 # DACPAC
 dotnet tool install -g microsoft.sqlpackage
+
+# Bicep
+
+# Fetch the latest Bicep CLI binary
+$InstallPath = "C:\Program Files\Bicep"
+New-Item -Type Directory $InstallPath
+Invoke-WebRequest -Uri https://github.com/Azure/bicep/releases/latest/download/bicep-win-x64.exe -OutFile "$InstallPath\bicep.exe"
+
+# Add bicep to path
+$Path = [Environment]::GetEnvironmentVariable("PATH", "Machine") + [IO.Path]::PathSeparator + $InstallPath
+[Environment]::SetEnvironmentVariable( "Path", $Path, "Machine")
