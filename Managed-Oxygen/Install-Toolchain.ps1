@@ -12,3 +12,8 @@ Invoke-WebRequest -URI https://dotnet.microsoft.com/download/dotnet/scripts/v1/d
 
 # DACPAC
 dotnet tool install -g microsoft.sqlpackage
+
+# Powershell 7
+Invoke-WebRequest -Uri https://github.com/PowerShell/PowerShell/releases/download/v7.3.4/PowerShell-7.3.4-win-x64.msi -OutFile pwsh.msi
+Start-Process msiexec.exe -Wait -ArgumentList '/I pwsh.msi /quiet'
+Remove-Item .\pwsh.msi
