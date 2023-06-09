@@ -38,7 +38,7 @@ Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/ma
 $headers = @{Authorization = "Bearer $token"}
 $registrationToken = Invoke-RestMethod -Method Post -Uri https://api.github.com/repos/WeAreInSpark/Solution.ManagedOxygen.Deployment/actions/runners/registration-token `
                                        -headers $headers `
-                                       -ContentType "application/vnd.github+json" | Select -expandproperty token
+                                       -ContentType "application/vnd.github+json" | Select-Object -ExpandProperty token
 
 # Create the runner and start the configuration
 ./config.cmd --url https://github.com/$repo --token $registrationToken --labels $labels --unattended --replace --runasservice
