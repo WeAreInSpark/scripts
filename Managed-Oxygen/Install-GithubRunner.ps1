@@ -35,8 +35,9 @@ Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/ma
 ./Install-Toolchain.ps1
 
 # Get time limited registration token
+$headers = @{Authorization = "Bearer $token"}
 $registrationToken = Invoke-RestMethod -Method Post -Uri https://api.github.com/repos/WeAreInSpark/Solution.ManagedOxygen.Deployment/actions/runners/registration-token `
-                                       -Authentication Bearer -Token (convertto-securestring -asplaintext $token) `
+                                       -headers $headers `
                                        -ContentType "application/vnd.github+json" | Select -expandproperty token
 
 # Create the runner and start the configuration
