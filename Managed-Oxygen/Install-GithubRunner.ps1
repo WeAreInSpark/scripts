@@ -34,8 +34,13 @@ Remove-Item actions-runner.zip
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -OutFile Install-Toolchain.ps1
 ./Install-Toolchain.ps1
 
+# Get time limited registration token
+$registrationToken = Invoke-RestMethod -Method Post -Uri https://api.github.com/repos/WeAreInSpark/Solution.ManagedOxygen.Deployment/actions/runners/registration-token `
+                                       -Authentication Bearer -Token (convertto-securestring -asplaintext $token) `
+                                       -ContentType "application/vnd.github+json" | Select -expandproperty token
+
 # Create the runner and start the configuration
-./config.cmd --url https://github.com/$repo --token $token --labels $labels --unattended --replace --runasservice
+./config.cmd --url https://github.com/$repo --token $registrationToken --labels $labels --unattended --replace --runasservice
 
 # Reboot
 Restart-Computer
