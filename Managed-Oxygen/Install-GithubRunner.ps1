@@ -63,5 +63,5 @@ $registrationToken = (Invoke-RestMethod @params).token
 # Create the runner and start the configuration
 ./config.cmd --url "https://github.com/$repo" --token $registrationToken --labels $labels --unattended --replace --runasservice
 
-"Starting runner"
-./run.cmd
+# "Starting runner"
+# ./run.cmd
