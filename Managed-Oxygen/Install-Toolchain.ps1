@@ -7,6 +7,7 @@ Remove-Item .\AzureCLI.msi
 "- Installing Azure PowerShell"
 # Azure Powershell
 if (!(Get-Module -ListAvailable Az)) {
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
     Install-Module -Name Az -Repository PSGallery -Force
 }
 
@@ -14,6 +15,7 @@ if (!(Get-Module -ListAvailable Az)) {
 # dotnet
 Invoke-WebRequest -Uri 'https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.ps1' -OutFile dotnet-install.ps1
 ./dotnet-install.ps1
+dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
 
 "- Installing DACPAC"
 # DACPAC
