@@ -20,5 +20,3 @@ dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
 "- Installing DACPAC"
 # DACPAC
 dotnet tool install -g microsoft.sqlpackage
-
--repo 'WeAreInSpark/Solution.ManagedOxygen' -token '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' -labels @('test')
