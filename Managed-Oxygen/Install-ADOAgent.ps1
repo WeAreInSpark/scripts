@@ -21,7 +21,7 @@ param (
     $username,
 
     [Parameter(Mandatory=$true)]
-    [SecureString]
+    [string]
     $password
 )
 
