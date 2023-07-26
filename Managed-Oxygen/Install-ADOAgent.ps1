@@ -29,7 +29,7 @@ param (
 New-Item -Type Directory c:\agent; Set-Location c:\agent
 
 # Download the agent package of specified $version
-Invoke-WebRequest -Uri https://vstsagentpackage.azureedge.net/agent/$version/vsts-agent-win-x64-$version.zip -OutFile c:\tmp\agent.zip
+Invoke-WebRequest -Uri https://vstsagentpackage.azureedge.net/agent/$version/vsts-agent-win-x64-$version.zip -OutFile c:\agent\agent.zip
 
 # Extract the agent
 Expand-Archive -Path agent.zip -DestinationPath .
@@ -57,4 +57,4 @@ $params = @{
 Register-ScheduledTask @params
 
 # Reboot
-Restart-Computer
+# Restart-Computer
