@@ -1,4 +1,4 @@
-[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", Scope = "Function", Target = "New-RuntimeScheduledTask")]
+# [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", Scope = "Function", Target = "New-RuntimeScheduledTask")]
 
 param(
     [Parameter(Mandatory)]
