@@ -22,3 +22,6 @@ dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
 dotnet tool install -g microsoft.sqlpackage
 dotnet tool install --global PowerShell
 dotnet add package Microsoft.SqlServer.DacFx
+
+"- Setting environment variables"
+[System.Environment]::SetEnvironmentVariable('SqlPackage','C:\Windows\system32\config\systemprofile\.dotnet\tools\sqlpackage.exe', 'Machine')
