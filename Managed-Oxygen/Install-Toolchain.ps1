@@ -20,7 +20,7 @@ dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
 "- Installing DACPAC"
 # DACPAC
 dotnet tool install -g microsoft.sqlpackage
-dotnet tool install --global PowerShell
+dotnet tool install --global PowerShell --version 7.3.0
 dotnet add package Microsoft.SqlServer.DacFx
 
 "- Setting environment variables"
