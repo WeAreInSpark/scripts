@@ -20,8 +20,19 @@ dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
 "- Installing DACPAC"
 # DACPAC
 dotnet tool install -g microsoft.sqlpackage
-dotnet tool install --global PowerShell --version 6.2.2
-dotnet add package Microsoft.SqlServer.DacFx
 
-"- Setting environment variables"
-[System.Environment]::SetEnvironmentVariable('SqlPackage','C:\Windows\system32\config\systemprofile\.dotnet\tools\sqlpackage.exe', 'Machine')
+"- Installing Powershell"
+# Powershell
+Invoke-WebRequest https://github.com/PowerShell/PowerShell/releases/download/v7.3.6/PowerShell-7.3.6-win-x64.msi -OutFile .\Powershell.msi
+Start-Process msiexec.exe -Wait -ArgumentList '/I Powershell.msi /quiet'
+
+"- Installing Powershell"
+# Dacpac Framework
+Invoke-WebRequest https://aka.ms/dacfx-msi -OutFile .\DacpacFramework.msi
+Start-Process msiexec.exe -Wait -ArgumentList '/I DacpacFramework.msi /quiet'
+
+# dotnet tool install --global PowerShell --version 6.2.2
+# dotnet add package Microsoft.SqlServer.DacFx
+
+# "- Setting environment variables"
+# [System.Environment]::SetEnvironmentVariable('SqlPackage','C:\Windows\system32\config\systemprofile\.dotnet\tools\sqlpackage.exe', 'Machine')
