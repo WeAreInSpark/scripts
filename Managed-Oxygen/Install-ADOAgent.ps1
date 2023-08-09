@@ -21,7 +21,7 @@ param (
     $username,
 
     [Parameter(Mandatory=$true)]
-    [SecureString]
+    [string]
     $password
 )
 
@@ -29,14 +29,14 @@ param (
 New-Item -Type Directory c:\agent; Set-Location c:\agent
 
 # Download the agent package of specified $version
-Invoke-WebRequest -Uri https://vstsagentpackage.azureedge.net/agent/$version/vsts-agent-win-x64-$version.zip -OutFile c:\tmp\agent.zip
+Invoke-WebRequest -Uri https://vstsagentpackage.azureedge.net/agent/$version/vsts-agent-win-x64-$version.zip -OutFile c:\agent\agent.zip
 
 # Extract the agent
 Expand-Archive -Path agent.zip -DestinationPath .
 Remove-Item -Path agent.zip
 
 # Install toolchain
-Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/main/Managed-Oxygen/Install-Toolchain.ps1 -OutFile Install-Toolchain.ps1
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/WeAreInSpark/scripts/donheerschap-patch-1/Managed-Oxygen/Install-Toolchain.ps1 -OutFile Install-Toolchain.ps1
 ./Install-Toolchain.ps1
 
 # Configure agent
@@ -57,4 +57,4 @@ $params = @{
 Register-ScheduledTask @params
 
 # Reboot
-Restart-Computer
+# Restart-Computer
