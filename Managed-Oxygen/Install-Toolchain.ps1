@@ -32,7 +32,7 @@ Invoke-WebRequest https://aka.ms/dacfx-msi -OutFile .\DacpacFramework.msi
 Start-Process msiexec.exe -Wait -ArgumentList '/I DacpacFramework.msi /quiet'
 
 "- Installing bash"
-wsl --install --no-launch
+wsl --install
 # wsl --install -d Debian -n
 # Debian install --root
 
