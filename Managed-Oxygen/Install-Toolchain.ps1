@@ -32,8 +32,9 @@ Invoke-WebRequest https://aka.ms/dacfx-msi -OutFile .\DacpacFramework.msi
 Start-Process msiexec.exe -Wait -ArgumentList '/I DacpacFramework.msi /quiet'
 
 "- Installing bash"
-wsl --install -d Debian -n
-Debian install --root
+wsl --install --no-launch
+# wsl --install -d Debian -n
+# Debian install --root
 
 # dotnet tool install --global PowerShell --version 6.2.2
 # dotnet add package Microsoft.SqlServer.DacFx
