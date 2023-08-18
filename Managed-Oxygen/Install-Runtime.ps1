@@ -100,3 +100,6 @@ Get-Gateway $installerPath
 Install-Gateway $installerPath
 Register-Gateway $key 80
 New-RuntimeScheduledTask
+
+Invoke-WebRequest https://api.adoptopenjdk.net/v3/installer/latest/11/ga/windows/x64/jdk/hotspot/normal/adoptopenjdk?project=jdk -OutFile C:\Temp\openjdk11.msi
+Start-Process -Wait -FilePath msiexec -ArgumentList /i, "C:\Temp\openjdk11.msi", 'ADDLOCAL="FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome"', 'INSTALLDIR="C:\Program Files\Java\jdk-11\"', /quiet, /norestart -Verb RunAs
