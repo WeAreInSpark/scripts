@@ -34,7 +34,7 @@ Start-Process msiexec.exe -Wait -ArgumentList '/I DacpacFramework.msi /quiet'
 
 "- Installing bash"
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
-wsl --install
+#wsl --install
 wsl --install -d Ubuntu
 
 # dotnet tool install --global PowerShell --version 6.2.2
