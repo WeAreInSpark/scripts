@@ -23,13 +23,13 @@ dotnet tool install -g microsoft.sqlpackage
 
 "- Installing Powershell"
 # Powershell
-Invoke-WebRequest https://github.com/PowerShell/PowerShell/releases/download/v7.3.6/PowerShell-7.3.6-win-x64.msi -OutFile .\Powershell.msi
-Start-Process msiexec.exe -Wait -ArgumentList '/I Powershell.msi /quiet'
+Invoke-WebRequest https://github.com/PowerShell/PowerShell/releases/download/v7.3.6/PowerShell-7.3.6-win-x64.msi -OutFile .\Powershell.msi -
+Start-Process msiexec.exe -Wait -ArgumentList '/I Powershell.msi /quiet' -Confirm:$false
 
-"- Installing Powershell"
+"- Installing DACPAC Framework"
 # Dacpac Framework
 Invoke-WebRequest https://aka.ms/dacfx-msi -OutFile .\DacpacFramework.msi
-Start-Process msiexec.exe -Wait -ArgumentList '/I DacpacFramework.msi /quiet'
+Start-Process msiexec.exe -Wait -ArgumentList '/I DacpacFramework.msi /quiet' -Confirm:$false
 
 "- Installing bash"
 wsl --install
